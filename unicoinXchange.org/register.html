@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="js" id="9a2a39b9">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register | UnicoinXchange</title>
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="stylesheet" href="https://extostock.org/assets/css/apps.css?ver=120">
+    <meta property="og:title" content="Register | UnicoinXchange">
+	
+<style>
+    .nk-wrap a {
+        color: #da2c46 !important;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: #da2c46;
+        border-color: #da2c46;
+    }
+    .btn-primary:hover {
+        background-color: #0a1c2d;
+        border-color: #0a1c2d;
+    }
+</style>
+	</head>
+<body class="nk-body npc-cryptlite pg-auth is-dark" data-theme="">
+<div class="nk-app-root">
+    <div class="nk-wrap">
+
+        <div class="nk-block nk-block-middle nk-auth-body wide-xs">
+
+            <div class="brand-logo text-center mb-2 pb-4">
+                <a class="logo-link" href="index.html">
+                    <img class="logo-img logo-light logo-img-lg" src="../unicoinXchange.org/fronta/images/icons/unicoin.png" alt="UnicoinXchange">
+                </a>
+            </div>
+
+        <div class="card card-bordered">
+            <div class="card-inner card-inner-lg">
+            <div class="nk-block-head">
+            <div class="nk-block-head-content">
+                <h4 class="nk-block-title">Create an Account</h4>
+                <div class="nk-block-des mt-2">
+                    <p>Sign up with your email and get started with your free account.</p>
+                </div>
+            </div>
+        </div>
+            <form action="#" id="registerForm" class="form-validate is-alter" autocomplete="off">
+            <div class="form-group">
+                <label class="form-label" for="full-name">Full Name<span class="text-danger"> &nbsp;*</span></label>
+                <div class="form-control-wrap">
+                    <input type="text" id="full-name" name="name" value="" class="form-control form-control-lg" minlength="5" data-msg-required="Required." data-msg-minlength="At least 3 chars." required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="email-address">Email Address<span class="text-danger"> &nbsp;*</span></label>
+                <div class="form-control-wrap">
+                    <input type="email" id="email-address" name="email" value="" class="form-control form-control-lg" autocomplete="off" data-msg-email="Enter a valid email." data-msg-required="Required." required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="passcode">Password<span class="text-danger"> &nbsp;*</span></label>
+                <div class="form-control-wrap">
+                    <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
+                        <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                        <em class="passcode-icon icon-hide icon ni ni-eye"></em>
+                    </a>
+                    <input name="password" id="passcode" type="password" autocomplete="new-password" class="form-control form-control-lg" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="passcode">Confirm Password<span class="text-danger"> &nbsp;*</span></label>
+                <div class="form-control-wrap">
+                    <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
+                        <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                        <em class="passcode-icon icon-hide icon ni ni-eye"></em>
+                    </a>
+                    <input name="passwordConfirm" id="passcodeConfirm" type="password" autocomplete="new-password" class="form-control form-control-lg" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
+                </div>
+            </div>
+            <div class="form-group">
+            <div class="custom-control custom-control-xs custom-checkbox">
+                    <input type="checkbox" name="confirmation" class="custom-control-input" id="checkbox" data-msg-required=" You should accept our terms." required>
+                    <label class="custom-control-label" for="checkbox">I have agree to the <a href="page/terms-and-condition.html" target="_blank">Terms & Condition</a></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="_token" value="">                                                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            </div>
+        </form>
+            <div class="form-note-s2 text-center pt-4">Already have an account? <a href="login.html"><strong>Sign in instead</strong></a></div>
+        </div>
+    </div>
+</div>
+
+<div class="nk-footer nk-auth-footer-full">
+    <div class="container wide-lg">
+        <div class="row g-3">
+            <div class="col-lg-6 order-lg-last">
+                <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+	                <li class="nav-item"><a class="nav-link" href="page/faqs.html">FAQs</a></li>
+				    <li class="nav-item"><a class="nav-link" href="page/terms-and-condition.html">Terms and Condition</a></li>
+					<li class="nav-item"><a class="nav-link" href="page/privacy-policy.html">Privacy Policy</a></li>
+		        </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="nk-block-content text-center text-lg-left">
+                    <p class="text-soft">UnicoinXchange &copy; 2024. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<script src="../node_modules/axios/dist/axios.min.js"></script>
+<script src="./scriptJs/authScript.js"></script>
+</body>
+
+</html>

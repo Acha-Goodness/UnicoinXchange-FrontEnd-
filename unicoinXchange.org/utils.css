@@ -1,0 +1,19 @@
+.dashboard-btn{
+    display: none;
+    cursor: pointer;
+}
+.flex-btn{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+.fa-user{
+    color: yellowgreen;
+}
+.dashboard-btn p{
+    color:white;
+    margin-left: 3%;
+}
+.auth-menu{
+    display: none;
+}
