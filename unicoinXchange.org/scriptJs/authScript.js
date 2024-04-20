@@ -142,7 +142,6 @@ resetPasswordForm && resetPasswordForm.addEventListener("submit", (e) => {
 // VIEW DASH BOARD
 const launchAnimation = () => {
     // DASHBOARD SCROLLER EFFECT
-    console.log("ANIMATIO!!!!");
     const scrollers = document.querySelectorAll(".scroller");
 
     const addAnimation = () => {
@@ -151,7 +150,7 @@ const launchAnimation = () => {
             
             const scrollerInner = scroller.querySelector(".scroller_inner");
             const scrollerContent = Array.from(scrollerInner.children);
-            // console.log(scrollerContent)
+        
             scrollerContent.forEach((item) => {
                 const duplicatedItem = item.cloneNode(true);
                 duplicatedItem.setAttribute("aria-hidden", true);
@@ -176,19 +175,16 @@ const displayCryptoPrice = (cryptoData) => {
         const divTag = document.createElement("div")
         const imgTag = document.createElement("img");
         const nameTag = document.createElement("p");
-        const symbol = document.createElement("p");
         const priceTag = document.createElement("p");
 
         divTag.classList.add("price_wrap");
 
         imgTag.src = coin.image;
         nameTag.innerText = coin.name;
-        symbol.innerText = coin.symbol;
         priceTag.innerText = coin.current_price
 
         divTag.appendChild(imgTag);
         divTag.appendChild(nameTag);
-        divTag.appendChild(symbol);
         divTag.appendChild(priceTag);
         scrollerInner.appendChild(divTag);
     });
@@ -210,9 +206,23 @@ const callCryptoApi = () => {
 };
 
 const populateDashboard = (data) => {
+    
     const profileName = document.getElementById("profile_name");
     const investMentStatus = document.querySelector(".global");
-    profileName.innerHTML = data.data.name
+    const acctBlc = document.getElementById("acct-blc");
+    const bonus = document.getElementById("bonus");
+    const totalDeposit = document.getElementById("total-deposit");
+    const totalWithdraw = document.getElementById("total-withdraw");
+
+    let totAmt = 0;
+    data.data.transactionHistory.map(el => totAmt += el.amount);
+
+    profileName.innerHTML = data.data.name;
+    acctBlc.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+    bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
+    totalDeposit.children[1].firstElementChild.innerHTML = totAmt;
+    totalWithdraw.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+    
     if(data.data.investmentStatus === false){
         investMentStatus.firstElementChild.innerHTML = "You do not have an Active Investment"
     }else{
@@ -221,6 +231,8 @@ const populateDashboard = (data) => {
 };
 
 if(window.location.pathname === '/unicoinXchange.org/page/dashboard.html'){
+
+// GET USER 
 document.addEventListener('DOMContentLoaded', () => {
     const jwtToken = localStorage.getItem("jwtToken")
     axios.get("http://127.0.0.1:7000/api/v1/users/", {
@@ -239,6 +251,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // callCryptoApi();
     launchAnimation();
   });
+
+    // EDIT USER DETAILS FUNCTION
+    const dashNavigationBtn = document.querySelector(".dashboard-nav");
+    const subMenu = document.querySelector(".update-details")
+
+    dashNavigationBtn.children[3].addEventListener("click", () => {
+        subMenu.classList.toggle("active-sub-menu")
+    })
+
+    // DISPLAY EDIT DETAILS FORM
+    subMenu.children[0].addEventListener("click", () => {
+        console.log("CLICK IS WORKING");
+    });
+
+    subMenu.children[1].addEventListener("click", () => {
+        console.log("CLICK IS WORKING !!!");
+    });
 }
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
@@ -260,7 +289,6 @@ const postInvetment = (name, duration, referralBonus, totalReturn) => {
         'Content-Type': 'application/json',
         "Authorization" : `Bearer ${jwtToken}`
     }}).then(res => {
-        console.log(res);
         res.data.status = "success";
         window.location.href = 'page/selectWallet.html';
     }).catch(err => {
@@ -334,8 +362,6 @@ Array.from(investNowBtn).map((btn, idx) => {
 });
 
 // SELECT CRYPTO WALLET ADDRESS
-
-
 if(window.location.pathname === '/unicoinXchange.org/page/copy-crypto-address.html'){
         const barContainer = document.getElementById("bar-code-container");
         const cryptoInput = document.getElementById("coin-address");

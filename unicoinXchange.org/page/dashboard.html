@@ -27,12 +27,17 @@
                 </div>
             </div>
             <div class="acct-info">
-                <ul>
+                <ul class="dashboard-nav">
                     <li>Quick Deposit</li>
                     <li>Withdraw</li>
-                    <li>Quick Loan</li>
                     <li>Transaction</li>
-                    <li>Edit Profile</li>
+                    <li>
+                        Edit Profile
+                        <ul class="update-details">
+                            <li>Update Details</li>
+                            <li>Update Password</li>
+                        </ul>
+                    </li>
                 </ul>
                 <div class="finance-info">
                     <div class="currency">
@@ -77,9 +82,9 @@
                     <h2>Account Summary</h2>
                     <div class="sum-card">
                         <div class="card1">
-                            <div>
+                            <div id="acct-blc">
                                 <p>Account Balance</p>
-                                <h1>$0.00</h1>
+                                <h1>$<span>0</span>.00</h1>
                             </div>
                             <i class="fa fa-balance-scale" aria-hidden="true"></i>
                         </div>
@@ -93,9 +98,9 @@
                         </div>
 
                         <div class="card1">
-                            <div>
+                            <div id="bonus">
                                 <p>Bonus</p>
-                                <h1>$0.00</h1>
+                                <h1>$<span>0</span>.00</h1>
                             </div>
                             <i class="fa fa-signal" aria-hidden="true"></i>
                         </div>
@@ -109,17 +114,17 @@
                         </div>
 
                         <div class="card1">
-                            <div>
+                            <div id="total-deposit">
                                 <p>Total Deposit</p>
-                                <h1>$0.00</h1>
+                                <h1>$<span>0</span>.00</h1>
                             </div>
                             <i class="fa fa-credit-card"  aria-hidden="true"></i>
                         </div>
 
                         <div class="card1">
-                            <div>
+                            <div id="total-withdraw">
                                 <p>Total Withdraw</p>
-                                <h1>$0.00</h1>
+                                <h1>$<span>0</span>.00</h1>
                             </div>
                             <i class="fa fa-history" aria-hidden="true"></i>
                         </div>
@@ -127,9 +132,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- UPDATE DETAILS FORM -->
+        <div>
+            <!--Update details Form -->
+            <form class="update-form details-form">
+                <h1>UPDATE USER DETAILS</h1>
+                <div class="form-group">
+                    <label class="form-label" for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="name" value="" data-msg-required="Required." data-msg-minlength="At least 3 chars." required/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email-address">Email Address</label>
+                    <input type="email" id="email-address" name="email" value="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
+                </div>
+                <button class="btn" type="submit">Edit Details</button>
+            </form>
+
+            <!-- Upadate Password Form -->
+
+            <form class="update-form password-form">
+                <h1>UPDATE USER PASSWORD</h1>
+                <div class="form-group">
+                    <label class="form-label" for="full-name">Current Password</label>
+                    <input type="text" id="full-name" name="name" value="" data-msg-required="Required." data-msg-minlength="At least 3 chars." required/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email-address">New Password</label>
+                    <input type="email" id="email-address" name="email" value="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email-address">Confirm New Password</label>
+                    <input type="email" id="email-address" name="email" value="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
+                </div>
+                <button class="btn" type="submit">Update Password</button>
+            </form>
+        </div>
     </div>
       <!-- main-footer -->
-      <footer class="main-footer">
+    <footer class="main-footer">
         <div class="footer-top">
             <div class="auto-container">
                 <div class="widget-section">
