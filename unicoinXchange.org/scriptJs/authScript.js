@@ -140,8 +140,76 @@ resetPasswordForm && resetPasswordForm.addEventListener("submit", (e) => {
 
 
 // VIEW DASH BOARD
+const launchAnimation = () => {
+    // DASHBOARD SCROLLER EFFECT
+    console.log("ANIMATIO!!!!");
+    const scrollers = document.querySelectorAll(".scroller");
+
+    const addAnimation = () => {
+        scrollers.forEach((scroller) => {
+            scroller.setAttribute("data-animated", true);
+            
+            const scrollerInner = scroller.querySelector(".scroller_inner");
+            const scrollerContent = Array.from(scrollerInner.children);
+            // console.log(scrollerContent)
+            scrollerContent.forEach((item) => {
+                const duplicatedItem = item.cloneNode(true);
+                duplicatedItem.setAttribute("aria-hidden", true);
+                console.log(duplicatedItem);
+                scrollerInner.appendChild(duplicatedItem);
+            });
+        });
+    };  
+
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+        addAnimation();
+    };
+}
+
+const displayCryptoPrice = (cryptoData) => {
+    const scrollerInner = document.querySelector(".scroller_inner");
+    const btcPrice = document.querySelector(".main-balance");
+ 
+    btcPrice.children[0].innerText = cryptoData[0].current_price
+
+    Array.from(cryptoData).slice(0, 100).map(coin => {
+        const divTag = document.createElement("div")
+        const imgTag = document.createElement("img");
+        const nameTag = document.createElement("p");
+        const symbol = document.createElement("p");
+        const priceTag = document.createElement("p");
+
+        divTag.classList.add("price_wrap");
+
+        imgTag.src = coin.image;
+        nameTag.innerText = coin.name;
+        symbol.innerText = coin.symbol;
+        priceTag.innerText = coin.current_price
+
+        divTag.appendChild(imgTag);
+        divTag.appendChild(nameTag);
+        divTag.appendChild(symbol);
+        divTag.appendChild(priceTag);
+        scrollerInner.appendChild(divTag);
+    });
+};
+
+const callCryptoApi = () => {
+    axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",{
+        headers: {
+            'accept': 'application/json',
+            'x-cg-demo-api-key': 'CG-zGftTZgAAAyggEeVzoFogaob'
+        }
+    })
+    .then(res => {
+        res.data.status === 200;
+        displayCryptoPrice(res.data);
+    }).catch(err => {
+        console.log(err);
+    });
+};
+
 const populateDashboard = (data) => {
-    // console.log(data)
     const profileName = document.getElementById("profile_name");
     const investMentStatus = document.querySelector(".global");
     profileName.innerHTML = data.data.name
@@ -157,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const jwtToken = localStorage.getItem("jwtToken")
     axios.get("http://127.0.0.1:7000/api/v1/users/", {
         headers: {
+            'Content-Type': 'application/json',
             "Authorization" : `Bearer ${jwtToken}`
         }
     })
@@ -166,6 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err => {
         console.log(err);
     });
+
+    // callCryptoApi();
+    launchAnimation();
   });
 }
 
@@ -312,7 +384,7 @@ if(window.location.pathname === '/unicoinXchange.org/page/select-wallet.html'){
        const cryptoCard = document.querySelectorAll(".wallet-card");
 
        Array.from(cryptoCard).map((card, idx) => {
-         card.addEventListener("click", () => {
+        cryptoCard && card.addEventListener("click", () => {
             window.location.href = 'copy-crypto-address.html';
             if(idx === 0) sessionStorage.setItem("coin", "bitcoin");
             if(idx === 1) sessionStorage.setItem("coin", "litecoin");
@@ -326,7 +398,7 @@ if(window.location.pathname === '/unicoinXchange.org/page/select-wallet.html'){
 // COPY ADDRESS FUNCTION
 const copyBtn = document.getElementById("copy-icon");
 
-copyBtn.addEventListener("click", () => {
+copyBtn && copyBtn.addEventListener("click", () => {
     const cryptoInput = document.getElementById("coin-address");
 
     cryptoInput.select();
@@ -338,5 +410,7 @@ copyBtn.addEventListener("click", () => {
     })
 
 })
+
+
 
 

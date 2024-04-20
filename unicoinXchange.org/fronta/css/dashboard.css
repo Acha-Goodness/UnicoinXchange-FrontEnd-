@@ -6,10 +6,43 @@
     background-color:#ffffff;
     padding-bottom: 4%;
 }
-.dashboard-header{
+.scroller{
+    max-width: 100%;
     background-color:#0A1C2D;
+}
+.scroller_inner{
+    display:flex;
     color:white;
     padding:1%;
+    gap:1rem;
+}
+.scroller[data-animated="true"]{
+    overflow: hidden;
+}
+.scroller[data-animated="true"] .scroller_inner{
+    width: fit-content;
+    flex-wrap: nowrap;
+    animation: scroll 20s linear infinite;
+}
+.price_wrap{
+    display: flex; 
+    align-items: center; 
+    width:170px;
+    justify-content: space-evenly;
+}
+.price_wrap img{
+    width:20px;
+    height:20px;
+}
+
+.price_wrap p{
+    color:white;
+    font-size: 10px;
+}
+@keyframes scroll{
+    to{
+        transform: translate(-20%);
+    }
 }
 .main-board{
     width:70%;
