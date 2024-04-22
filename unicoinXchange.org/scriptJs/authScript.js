@@ -21,17 +21,16 @@ const dashboardBtn = document.querySelector(".dashboard-btn");
 const storeJWT = (JWTToken, userData) => {
     localStorage.setItem("jwtToken", JWTToken);
     localStorage.setItem("userData", JSON.stringify(userData));
-}
+};
 
 // CHECK IS USER HAS LOGGED IN OR HIS LOGGED IN
 window.addEventListener("load", () => {
-    // localStorage.removeItem("jwtToken");
     loadUser();
-})
+});
 
 const loadUser = () => {
     const registerMenu = document.querySelector(".top-right");
-    const dashMenu = document.querySelector(".dashboard-btn") 
+    const dashMenu = document.querySelector(".dashboard-btn");
     const JwtToken = localStorage.getItem("jwtToken") !== null;
     const userInfo = JSON.parse(localStorage.getItem("userData"));
 
@@ -41,8 +40,8 @@ const loadUser = () => {
         dashMenu && dashMenu.classList.add("flex-btn");
     }else{
         console.log("User is not logged in");
-    }
-}
+    };
+};
 
 // USER REGISTRATION
 const register = () => {
@@ -52,10 +51,10 @@ const register = () => {
         password: password.value.trim(),
         passwordConfirm: passwordConfirm.value.trim(),
     }).then(res => {
-        res.data.status === "success"
+        res.data.status === "success";
         window.location.href = 'otp.html';
     }).catch(err => {
-        console.log(err)
+        console.log(err);
     });
 };
 
@@ -69,18 +68,18 @@ const verifyOtp = () => {
     axios.post("http://127.0.0.1:7000/api/v1/users/userVerifyOTP",{
         otp:otp.value.trim()
     }).then(res => {
-        res.data.status === "success"
+        res.data.status === "success";
         storeJWT(res.data.JWTToken, res.data.data.user);
         window.location.href = 'index.html';
     }).catch(err => {
-        console.log(err)
-    })
-}
+        console.log(err);
+    });
+};
 
 otpForm && otpForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        verifyOtp()
-    });
+    e.preventDefault();
+    verifyOtp();
+});
 
 // USER LOGIN
 const login = () => {
@@ -88,29 +87,29 @@ const login = () => {
         email: loginEmail.value.trim(),
         password: loginPassword.value.trim()
     }).then(res => {
-        res.data.status === "success"
+        res.data.status === "success";
         storeJWT(res.data.JWTToken, res.data.data.user);
         window.location.href = 'index.html';
     }).catch(err => {
-        console.log(err)
-    })
+        console.log(err);
+    });
 };
 
 loginForm && loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     login();
-})
+});
 
 // FORGOT PASSWORD
 const forgetPassword = () => {
     axios.post("http://127.0.0.1:7000/api/v1/users/userForgetPassword", {
         email: forgotPassEmail.value.trim()
     }).then(res => {
-        res.data.status === "success"
-        window.location.href = "resetPassword.html"
+        res.data.status === "success";
+        window.location.href = "resetPassword.html";
     }).catch(res => {
-        console.log(res)
-    })
+        console.log(res);
+    });
 };
 
 forgotPassForm && forgotPassForm.addEventListener("submit", (e) => {
@@ -130,13 +129,13 @@ const resetPassword = () => {
         window.location.href = '../index.html';
     }).catch(err => {
         console.log(err);
-    })
-}
+    });
+};
 
 resetPasswordForm && resetPasswordForm.addEventListener("submit", (e) => {
     e.preventDefault();
     resetPassword();
-})
+});
 
 
 // VIEW DASH BOARD
@@ -163,7 +162,7 @@ const launchAnimation = () => {
     if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
         addAnimation();
     };
-}
+};
 
 const displayCryptoPrice = (cryptoData) => {
     const scrollerInner = document.querySelector(".scroller_inner");
@@ -205,8 +204,28 @@ const callCryptoApi = () => {
     });
 };
 
+const  populateHistory = (data) => {
+    const historyBoard = document.querySelector(".history-board");
+    data.data.transactionHistory.map(transc => {
+        const div = document.createElement("div");
+        const currTag = document.createElement("p");
+        const dateTag = document.createElement("p");
+        const amtTag = document.createElement("p");
+
+        div.classList.add("transactions")
+
+        currTag.innerText = transc.paymentMode;
+        dateTag.innerText = transc.TransactionDate;
+        amtTag.innerText =  transc.amount;
+
+        div.appendChild(currTag);
+        div.appendChild(dateTag);
+        div.appendChild(amtTag)
+        historyBoard.appendChild(div);
+    });
+};
+
 const populateDashboard = (data) => {
-    
     const profileName = document.getElementById("profile_name");
     const investMentStatus = document.querySelector(".global");
     const acctBlc = document.getElementById("acct-blc");
@@ -228,11 +247,57 @@ const populateDashboard = (data) => {
     }else{
         investMentStatus.firstElementChild.innerHTML = "Your Investment is Active"
     }
+
+    populateHistory(data);
+};
+
+const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
+    
+    const jwtToken = localStorage.getItem("jwtToken")
+    editUserDetailsForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById("full-name");
+        const emailAddress = document.getElementById("email-address");
+
+        axios.patch("http://127.0.0.1:7000/api/v1/users", {
+            name: fullName.value.trim(),
+            email: emailAddress.value.trim(),
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${jwtToken}`
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
+    });
+
+    editUserPasswordForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const currentPass = document.getElementById("current-password");
+        const newPassword = document.getElementById("new-password");
+        const confirmPassword = document.getElementById("confirm-password");
+
+        axios.patch("http://127.0.0.1:7000/api/v1/userUpdatePassword", {
+            currentPassword: currentPass.value.trim(),
+            password: newPassword.value.trim(),
+            passwordConfirm: confirmPassword.value.trim(),
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${jwtToken}`
+            }
+        }).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 };
 
 if(window.location.pathname === '/unicoinXchange.org/page/dashboard.html'){
-
 // GET USER 
+
 document.addEventListener('DOMContentLoaded', () => {
     const jwtToken = localStorage.getItem("jwtToken")
     axios.get("http://127.0.0.1:7000/api/v1/users/", {
@@ -254,31 +319,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // EDIT USER DETAILS FUNCTION
     const dashNavigationBtn = document.querySelector(".dashboard-nav");
-    const subMenu = document.querySelector(".update-details")
+    const subMenu = document.querySelector(".update-details");
 
     dashNavigationBtn.children[3].addEventListener("click", () => {
-        subMenu.classList.toggle("active-sub-menu")
-    })
+        subMenu.classList.toggle("active-sub-menu");
+    });
 
     // DISPLAY EDIT DETAILS FORM
+    const updateDetailsForm = document.querySelector(".details-form");
+    const updatePasswordForm = document.querySelector(".password-form");
+    const historyBoard = document.querySelector(".history-board");
+
     subMenu.children[0].addEventListener("click", () => {
-        console.log("CLICK IS WORKING");
+        updateDetailsForm.classList.toggle("active-password-form");
+        updatePasswordForm.classList.remove("active-password-form");
+        historyBoard.classList.remove("active-his-board");
     });
 
     subMenu.children[1].addEventListener("click", () => {
-        console.log("CLICK IS WORKING !!!");
+        updatePasswordForm.classList.toggle("active-password-form");
+        updateDetailsForm.classList.remove("active-password-form");
+        historyBoard.classList.remove("active-his-board");
     });
-}
+
+    dashNavigationBtn.children[2].addEventListener("click", () => {
+        historyBoard.classList.toggle("active-his-board");
+        subMenu.classList.remove("active-sub-menu");
+        updateDetailsForm.classList.remove("active-password-form");
+        updatePasswordForm.classList.remove("active-password-form");
+    });
+
+
+    // CLOSE USER EDIT PANEL
+    const detailsPanelExit = document.getElementById("details-exit");
+
+    detailsPanelExit.addEventListener("click", () => {
+        updateDetailsForm.classList.remove("active-password-form");
+    });
+
+    // CLOSE USER EDIT PASSWORD PANEL
+    const passwordPanelExit = document.getElementById("exit-Password");
+
+    passwordPanelExit.addEventListener("click", () => {
+        updatePasswordForm.classList.remove("active-password-form");
+    });
+
+    // LOGOUT
+    const logoutBtn = document.getElementById("logout");
+
+    logoutBtn.addEventListener("click", () => {
+        console.log("LOGOUT IS WORKING");
+        // localStorage.removeItem("jwtToken");
+        // windows.location.href =  'index.html';
+    });
+
+     // AUTHENTICATE EDIT FORMS
+     authenticateEditForms(updateDetailsForm, updatePasswordForm);
+};
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
-    window.location.href = 'page/dashboard.html';
+    if(window.location.pathname === '/unicoinXchange.org/index.html' || window.location.pathname === '/unicoinXchange.org/investments.html'){
+        window.location.href = 'page/dashboard.html';
+    }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || window.location.pathname === '/unicoinXchange.org/page/faqs.html' || window.location.pathname === '/unicoinXchange.org/page/contact-us.html' || window.location.pathname === '/unicoinXchange.org/page/privacy-policy.html' || window.location.pathname === '/unicoinXchange.org/page/terms-and-condition.html'){
+        window.location.href = './dashboard.html';
+    };
 });
 
 // CREATE INVESTMENT
 const investNowBtn = document.querySelectorAll(".table-footer");
 
 const postInvetment = (name, duration, referralBonus, totalReturn) => {
-    const jwtToken = localStorage.getItem("jwtToken")
+    const jwtToken = localStorage.getItem("jwtToken");
     axios.post("http://127.0.0.1:7000/api/v1/investment/createInvestment", {
         name:name.innerText,
         duration: duration[0],
@@ -294,7 +405,7 @@ const postInvetment = (name, duration, referralBonus, totalReturn) => {
     }).catch(err => {
         console.log(err);
     });
-}
+};
 
 const rookiePlan = () => {
     const name = document.getElementById("rookie-plan");
@@ -302,7 +413,7 @@ const rookiePlan = () => {
     const referralBonusPercent = document.getElementById("rookie-bonus");
     const totalReturnPercent = document.getElementById("rookie-return");
 
-    const duration = durationDays.innerText.split(' ')
+    const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
 
@@ -315,7 +426,7 @@ const intermediatePlan = () => {
     const referralBonusPercent = document.getElementById("intermediate-bonus");
     const totalReturnPercent = document.getElementById("intermediate-return");
 
-    const duration = durationDays.innerText.split(' ')
+    const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
 
@@ -328,7 +439,7 @@ const professionalPlan = () => {
     const referralBonusPercent = document.getElementById("professional-bonus");
     const totalReturnPercent = document.getElementById("professional-return");
 
-    const duration = durationDays.innerText.split(' ')
+    const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
 
@@ -341,7 +452,7 @@ const masterPlan = () => {
     const referralBonusPercent = document.getElementById("master-bonus");
     const totalReturnPercent = document.getElementById("master-return");
 
-    const duration = durationDays.innerText.split(' ')
+    const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
 
@@ -371,11 +482,10 @@ if(window.location.pathname === '/unicoinXchange.org/page/copy-crypto-address.ht
 
         const imgTag = document.createElement("img");
         
-        
-        imgTag.classList.add("bar-code")
+        imgTag.classList.add("bar-code");
     
         if(cryptoCoin === "bitcoin"){
-            const bitcoinAddress = "bc1qcpesecg6vnpzpz5pxvw58v2jequmnnptlxpt65"
+            const bitcoinAddress = "bc1qcpesecg6vnpzpz5pxvw58v2jequmnnptlxpt65";
 
             coinName.innerText = cryptoCoin;
             imgTag.src = "../fronta/images/barcodes/bitcoin.jpeg";
@@ -389,14 +499,14 @@ if(window.location.pathname === '/unicoinXchange.org/page/copy-crypto-address.ht
             barContainer.appendChild(imgTag);
             cryptoInput.value = litecoinAddress;
         }else if(cryptoCoin === "ethereum"){
-            const ethereumAddress = "0xd82fdA8bb8381784BC26778B81694cD59Ae4c605"
+            const ethereumAddress = "0xd82fdA8bb8381784BC26778B81694cD59Ae4c605";
 
             coinName.innerText = cryptoCoin;
             imgTag.src = "../fronta/images/barcodes/ethereum.jpeg";
             barContainer.appendChild(imgTag);
             cryptoInput.value = ethereumAddress;
         }else if(cryptoCoin === "binance"){
-            const binanceAddress = "0xd82fdA8bb8381784BC26778B81694cD59Ae4c605"
+            const binanceAddress = "0xd82fdA8bb8381784BC26778B81694cD59Ae4c605";
 
             coinName.innerText = cryptoCoin;
             imgTag.src = "../fronta/images/barcodes/binance.jpeg";
@@ -433,9 +543,8 @@ copyBtn && copyBtn.addEventListener("click", () => {
     .then(() => {
         const msg = document.getElementById("message");
         msg.innerText = "Text copied to clipboard";
-    })
-
-})
+    });
+});
 
 
 
