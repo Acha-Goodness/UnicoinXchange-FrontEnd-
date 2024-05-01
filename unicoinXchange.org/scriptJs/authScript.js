@@ -144,9 +144,15 @@ const login = () => {
     }).then(res => {
         res.data.status === "success";
         storeJWT(res.data.JWTToken, res.data.data.user);
-        window.location.href = 'index.html';
+        const status = "success"
+        const message = res.data.message;
+        const location = 'index.html'
+        setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
+        const status = "error"
+        const message = err.message;
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -381,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(err);
     });
 
-    // callCryptoApi();
+    callCryptoApi();
     launchAnimation();
   });
 
@@ -453,7 +459,15 @@ document.addEventListener('DOMContentLoaded', () => {
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
     if(window.location.pathname === '/unicoinXchange.org/index.html' || window.location.pathname === '/unicoinXchange.org/investments.html'){
         window.location.href = 'page/dashboard.html';
-    }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || window.location.pathname === '/unicoinXchange.org/page/faqs.html' || window.location.pathname === '/unicoinXchange.org/page/contact-us.html' || window.location.pathname === '/unicoinXchange.org/page/privacy-policy.html' || window.location.pathname === '/unicoinXchange.org/page/terms-and-condition.html'){
+    }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || 
+             window.location.pathname === '/unicoinXchange.org/page/faqs.html' || 
+             window.location.pathname === '/unicoinXchange.org/page/contact-us.html' || 
+             window.location.pathname === '/unicoinXchange.org/page/privacy-policy.html' || 
+             window.location.pathname === '/unicoinXchange.org/page/terms-and-condition.html' ||
+             window.location.pathname === '/unicoinXchange.org/page/dashboard.html' ||
+             window.location.pathname === '/unicoinXchange.org/page/select-wallet.html' ||
+             window.location.pathname === '/unicoinXchange.org/page/copy-crypto-address.html'
+            ){
         window.location.href = './dashboard.html';
     };
 });

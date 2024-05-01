@@ -15,7 +15,7 @@
     margin-left: 3%;
 }
 .auth-menu{
-    display: none;
+    display: none !important;
 }
 .banner-btn{
     display: none !important;
@@ -71,3 +71,23 @@
 .btnErr{
     background-color: red !important;
 }
+.logo{
+    margin-top: 12px;
+}
+.side-logo{
+    width:80%;
+}
+@media only screen and (max-width:600px){
+    .logo{
+        margin-top: 12px;
+        width: 80%;
+    }
+    .mobile-nav-toggler{
+        margin-left: 45%;
+    }
+    .logo-img{
+        width: 300% !important;
+    }
+    
+}
+
