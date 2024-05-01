@@ -23,7 +23,7 @@ const closeModalBtn = document.getElementById("close-modal");
 
 const openPopup = () => {
     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
-    console.log(navigate)
+    
     if(window.location.pathname === '/unicoinXchange.org/index.html'){
         modal.style.top = "64%";
     }
@@ -41,7 +41,7 @@ const openPopup = () => {
 
 closeModalBtn && closeModalBtn.addEventListener("click", () => {
     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"))
-    console.log(navigate);
+    
     modal.classList.remove("open-popup");
     if(navigate.status === "error") return;
     window.location.href = navigate.location;  
@@ -75,6 +75,7 @@ const loadUser = () => {
 
 // USER REGISTRATION
 const setPopUpMsg = (message, location, status) => {
+    
     const notification = {
         status:status,
         message:message,
@@ -459,12 +460,6 @@ dashboardBtn && dashboardBtn.addEventListener("click", () => {
 const investNowBtn = document.querySelectorAll(".table-footer");
 
 const postInvetment = (name, duration, referralBonus, totalReturn) => {
-
-    console.log(name.innerText.trim());
-    console.log(duration[0].trim());
-    console.log(referralBonus.trim());
-    console.log(totalReturn.trim());
-
     const jwtToken = localStorage.getItem("jwtToken");
     axios.post("http://127.0.0.1:7000/api/v1/investment/createInvestment", {
         name:name.innerText.trim(),
@@ -545,7 +540,9 @@ const masterPlan = () => {
 Array.from(investNowBtn).map((btn, idx) => {
     btn.addEventListener("click", () => {
         if(localStorage.getItem("jwtToken") === null) {
-            alert("you are not logged in");
+            const status = "error"
+            const message = "you are not logged in";
+            setPopUpMsg(message, null, status);
             return;
         };
         if(idx === 0) rookiePlan();
