@@ -61,11 +61,13 @@ window.addEventListener("load", () => {
 const loadUser = () => {
     const registerMenu = document.querySelector(".top-right");
     const dashMenu = document.querySelector(".dashboard-btn");
+    const bannerBtn = document.querySelectorAll(".btn-box");
     const JwtToken = localStorage.getItem("jwtToken") !== null;
     const userInfo = JSON.parse(localStorage.getItem("userData"));
 
     if (JwtToken) {
         registerMenu && registerMenu.classList.add('auth-menu');
+        Array.from(bannerBtn).map(btn => btn.classList.add("banner-btn"));
         if(dashMenu) dashMenu.children[1].innerHTML = userInfo.name;
         dashMenu && dashMenu.classList.add("flex-btn");
     }else{

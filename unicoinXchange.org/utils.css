@@ -17,6 +17,9 @@
 .auth-menu{
     display: none;
 }
+.banner-btn{
+    display: none !important;
+}
 /* POP-UP MODAL */
 .pop{
     width:400px;
