@@ -17,6 +17,36 @@ const confirmResetPass = document.getElementById("user-confirm-password");
 const dashboardBtn = document.querySelector(".dashboard-btn");
 
 
+// NOTIFICATION POPUP MODAL
+const modal = document.getElementById("popup");
+const closeModalBtn = document.getElementById("close-modal");
+
+const openPopup = () => {
+    const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
+    console.log(navigate)
+    if(window.location.pathname === '/unicoinXchange.org/index.html'){
+        modal.style.top = "64%";
+    }
+
+    if(navigate.status === "error"){
+        modal.children[0].src = "./fronta/images/icons/error.png"
+        modal.children[1].innerHTML = "Error!!!"
+        modal.children[1].classList.add("error");
+        modal.children[3].classList.add("btnErr");
+        modal.classList.add("open-popup")
+    }
+    modal.children[2].innerHTML = navigate.message
+    modal.classList.add("open-popup")
+};
+
+closeModalBtn && closeModalBtn.addEventListener("click", () => {
+    const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"))
+    console.log(navigate);
+    modal.classList.remove("open-popup");
+    if(navigate.status === "error") return;
+    window.location.href = navigate.location;  
+});
+
 // STORE JWT TO LOCAL STORAGE
 const storeJWT = (JWTToken, userData) => {
     localStorage.setItem("jwtToken", JWTToken);
@@ -44,6 +74,16 @@ const loadUser = () => {
 };
 
 // USER REGISTRATION
+const setPopUpMsg = (message, location, status) => {
+    const notification = {
+        status:status,
+        message:message,
+        location:location
+    }
+    sessionStorage.setItem("notificationMsg", JSON.stringify(notification));
+    openPopup();
+};
+
 const register = () => {
     axios.post("http://127.0.0.1:7000/api/v1/users/userSignUp", {
         name: fullname.value.trim(),
@@ -52,9 +92,15 @@ const register = () => {
         passwordConfirm: passwordConfirm.value.trim(),
     }).then(res => {
         res.data.status === "success";
-        window.location.href = 'otp.html';
+        const status = "success"
+        const message = res.data.message;
+        const location = 'otp.html'
+        setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
+        const status = "error"
+        const message = err.message;
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -70,9 +116,15 @@ const verifyOtp = () => {
     }).then(res => {
         res.data.status === "success";
         storeJWT(res.data.JWTToken, res.data.data.user);
-        window.location.href = 'index.html';
+        const status = "success"
+        const message = res.data.message;
+        const location = 'index.html'
+        setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
+        const status = "error"
+        const message = err.message;
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -237,10 +289,13 @@ const populateDashboard = (data) => {
     data.data.transactionHistory.map(el => totAmt += el.amount);
 
     profileName.innerHTML = data.data.name;
-    acctBlc.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
-    bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
     totalDeposit.children[1].firstElementChild.innerHTML = totAmt;
-    totalWithdraw.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+
+    if(data.data.investmentPlan !== undefined){
+        acctBlc.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+        bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
+        totalWithdraw.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+    };
     
     if(data.data.investmentStatus === false){
         investMentStatus.firstElementChild.innerHTML = "You do not have an Active Investment"
@@ -253,21 +308,26 @@ const populateDashboard = (data) => {
 
 const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
     
-    const jwtToken = localStorage.getItem("jwtToken")
     editUserDetailsForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        const jwtToken = localStorage.getItem("jwtToken");
+
         const fullName = document.getElementById("full-name");
         const emailAddress = document.getElementById("email-address");
 
-        axios.patch("http://127.0.0.1:7000/api/v1/users", {
+        axios.patch("http://127.0.0.1:7000/api/v1/users/", {
             name: fullName.value.trim(),
             email: emailAddress.value.trim(),
+        },{
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
-            }
-        }).then(res => {
-            console.log(res);
+        }}
+        ).then(res => {
+            localStorage.removeItem("userData");
+            localStorage.setItem("userData", JSON.stringify(res.data.data.user));
+            loadUser();
+            editUserDetailsForm.classList.remove("active-password-form");
         }).catch(err => {
             console.log(err);
         });
@@ -275,20 +335,24 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
 
     editUserPasswordForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        const jwtToken = localStorage.getItem("jwtToken");
+
         const currentPass = document.getElementById("current-password");
         const newPassword = document.getElementById("new-password");
         const confirmPassword = document.getElementById("confirm-password");
 
-        axios.patch("http://127.0.0.1:7000/api/v1/userUpdatePassword", {
-            currentPassword: currentPass.value.trim(),
-            password: newPassword.value.trim(),
-            passwordConfirm: confirmPassword.value.trim(),
-            headers: {
-                'Content-Type': 'application/json',
+
+        axios.patch("http://127.0.0.1:7000/api/v1/users/userUpdatePassword", {
+                currentPassword: currentPass.value.trim(),
+                password: newPassword.value.trim(),
+                passwordConfirm: confirmPassword.value.trim(),
+            },{headers: {
+                "Content-Type": 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
-            }
-        }).then(res => {
-            console.log(res);
+            }}
+        ).then(res => {
+            localStorage.setItem("jwtToken", res.data.JWTToken);
+            editUserPasswordForm.classList.remove("active-password-form");
         }).catch(err => {
             console.log(err);
         });
@@ -297,17 +361,18 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
 
 if(window.location.pathname === '/unicoinXchange.org/page/dashboard.html'){
 // GET USER 
-
+let data;
 document.addEventListener('DOMContentLoaded', () => {
     const jwtToken = localStorage.getItem("jwtToken")
     axios.get("http://127.0.0.1:7000/api/v1/users/", {
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": 'application/json',
             "Authorization" : `Bearer ${jwtToken}`
         }
     })
     .then(res => {
         res.data.status === "successful";
+        data = res.data.data
         populateDashboard(res.data.data)
     }).catch(err => {
         console.log(err);
@@ -331,6 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyBoard = document.querySelector(".history-board");
 
     subMenu.children[0].addEventListener("click", () => {
+        const nameInput = document.getElementById("full-name");
+        const emailInput = document.getElementById("email-address");
+
+        nameInput.placeholder = data.data.name;
+        emailInput.placeholder = data.data.email;
+
         updateDetailsForm.classList.toggle("active-password-form");
         updatePasswordForm.classList.remove("active-password-form");
         historyBoard.classList.remove("active-his-board");
@@ -368,9 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById("logout");
 
     logoutBtn.addEventListener("click", () => {
-        console.log("LOGOUT IS WORKING");
-        // localStorage.removeItem("jwtToken");
-        // windows.location.href =  'index.html';
+        localStorage.removeItem("jwtToken");
+        window.location.href =  '../index.html';
     });
 
      // AUTHENTICATE EDIT FORMS
@@ -389,21 +459,34 @@ dashboardBtn && dashboardBtn.addEventListener("click", () => {
 const investNowBtn = document.querySelectorAll(".table-footer");
 
 const postInvetment = (name, duration, referralBonus, totalReturn) => {
+
+    console.log(name.innerText.trim());
+    console.log(duration[0].trim());
+    console.log(referralBonus.trim());
+    console.log(totalReturn.trim());
+
     const jwtToken = localStorage.getItem("jwtToken");
     axios.post("http://127.0.0.1:7000/api/v1/investment/createInvestment", {
-        name:name.innerText,
-        duration: duration[0],
-        referralBonus: referralBonus,
-        totalReturn: totalReturn
+        name:name.innerText.trim(),
+        duration: duration[0].trim(),
+        referralBonus: referralBonus.trim(),
+        totalReturn: totalReturn.trim()
     },{
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": 'application/json',
         "Authorization" : `Bearer ${jwtToken}`
     }}).then(res => {
-        res.data.status = "success";
-        window.location.href = 'page/selectWallet.html';
+        res.data.status === "success";
+        console.log(res.data.message)
+        const status = "success"
+        const message = res.data.message;
+        const location = './page/select-wallet.html'
+        setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
+        const status = "error"
+        const message = err.response.data.message;
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -545,7 +628,5 @@ copyBtn && copyBtn.addEventListener("click", () => {
         msg.innerText = "Text copied to clipboard";
     });
 });
-
-
 
 
