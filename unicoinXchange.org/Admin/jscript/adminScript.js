@@ -252,26 +252,31 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
     const displayUsers = (users) => {
-        console.log(users)
+        
         const userCardsWrap = document.querySelector(".user-cards-wrap");
-        console.log(userCardsWrap)
+        
         Array.from(users).map(user => {
             const card = document.createElement("div");
             const userIcon = document.createElement("i");
-            const name = document.createElement("h3");
+            const name = document.createElement("h5");
             const btn1 = document.createElement("button");
             const btn2 = document.createElement("button");
             const btn3 = document.createElement("button");
             const deleteIcon = document.createElement("i");
 
-            card.classList.add("user-card")
+            card.classList.add("user-card");
+            btn1.classList.add("card-btn");
+            btn2.classList.add("card-btn");
+            btn3.classList.add("card-btn");
 
-            // userIcon.classList.add("fa fa-user");
+            userIcon.classList.add("fa");
+            userIcon.classList.add("fa-user");
             name.innerText = user.name;
             btn1.innerText = "Update Client Investment Amount";
             btn2.innerText = "Activate Client Investment";
             btn3.innerText = "De-activate Client Investment";
-            // deleteIcon.classList.add("fa fa-trash");
+            deleteIcon.classList.add("fa");
+            deleteIcon.classList.add("fa-trash");
 
             card.appendChild(userIcon)
             card.appendChild(name)
@@ -280,6 +285,25 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             card.appendChild(btn3)
             card.appendChild(deleteIcon)
             userCardsWrap.appendChild(card);
+        })
+
+        const delBtn = document.getElementById("del-client");
+        delBtn.addEventListener("click", () => {
+          const cards = document.querySelectorAll(".user-card");
+          Array.from(cards).map(card => {
+            const btns = card.querySelectorAll(".card-btn")
+            const trashBtn = card.querySelector(".fa-trash");
+            trashBtn.classList.toggle("active-trash")
+            Array.from(btns).map(btn => {
+                btn.classList.toggle(".active-card-btn")
+            })
+          })
+
+          if(delBtn.innerText === "Delete Client"){
+            delBtn.innerText = "Cancel..."
+          }else{
+            delBtn.innerText = "Delete Client"
+          }
         })
     };
 

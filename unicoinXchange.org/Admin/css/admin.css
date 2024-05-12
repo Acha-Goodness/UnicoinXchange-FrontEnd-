@@ -99,11 +99,15 @@
     border-bottom-right-radius: 10px;
     cursor: pointer;
 }
+.dashboard-page{
+    overflow-y: scroll;
+}
+.dashboard-page::-webkit-scrollbar {
+    display: none;
+  }
 .user-cards-wrap{
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-evenly; */
-    /* overflow-y: scroll; */
 }
 .user-card{
     background-color: black;
@@ -115,18 +119,48 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: hidden;
 }
-.user-card h3{
+.user-card i{
+    color:#01CF15;
+    font-size:20px;
+    margin: 2% 0% 2% 0%;
+}
+.fa-trash{
+    color: rgb(114, 114, 114) !important;
+    font-size: 15px !important;
+    display: none;
+    margin-top: 25% !important;
+    cursor: pointer;
+}
+.active-trash{
+    display: block;
+}
+.user-card h5{
     color:white;
 }
-.user-card button{
-    background-color: #01CF15;
+.card-btn{
+    background-color: #EE5B07;
     border:none;
-    width:90%;
+    width:80%;
+    height: 70px;
+    position:relative;
+    bottom: -125px;
     margin-top: 5px;
-    padding:10px;
+    padding:0px 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+    color: white;
+    border-radius: 5px;
+    transition-duration: 2s;
+}
+.active-card-btn{
+    display: block;
+}
+.user-card:hover .card-btn{
+    bottom: 1px;
+    transition-duration: 1s;
+    cursor: pointer;
 }
