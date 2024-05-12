@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/skull.png">
+    <title>Admin Authentication | UnicoinXchange</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i&amp;display=swap" rel="stylesheet">
+    <link href="../css/adminauth.css" rel="stylesheet"/>
+</head>
+<body>
+        <div class="registration-wrap">
+            <img src="../img/skull.png" href="pirate-skull" class="skull" />
+
+            <!-- registration form -->
+
+            <form class="form registration-form">
+                <div class="form-group">
+                    <label class="form-label" for="full-name">Full Name<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <input type="text" id="full-name" name="name" value="" class="form-control form-control-lg" minlength="5" data-msg-required="Required." data-msg-minlength="At least 3 chars." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email-address">Email Address<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <input type="email" id="email-address" name="email" value="" class="form-control form-control-lg" autocomplete="off" data-msg-email="Enter a valid email." data-msg-required="Required." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="passcode">Password<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
+                            <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                            <em class="passcode-icon icon-hide icon ni ni-eye"></em>
+                        </a>
+                        <input name="password" id="passcode" type="password" autocomplete="new-password" class="form-control form-control-lg" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="passcode">Confirm Password<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
+                            <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                            <em class="passcode-icon icon-hide icon ni ni-eye"></em>
+                        </a>
+                        <input name="passwordConfirm" id="passcodeConfirm" type="password" autocomplete="new-password" class="form-control form-control-lg" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
+                    </div>
+                </div>
+                <div class="form-group">                                        
+                    <button class="register-btn" type="submit">Register</button>
+                </div>
+            </form>
+
+            <!-- CONFIRM OTP FORM -->
+
+            <form class="form otp-form">
+                <div class="form-group">
+                    <label class="form-label" for="email-address">OTP<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <input type="text" id="otp" name="otp" value="" class="form-control form-control-lg" autocomplete="off" data-msg-required="Required." required>
+                    </div>
+                </div>
+                <div class="form-group">                                        
+                    <button class="btn" type="submit">Submit OTP</button>
+                </div>
+            </form>
+
+            <!-- LOGIN FORM -->
+
+            <form class="form login-form">
+                <div class="form-group">
+                    <label class="form-label" for="email-address">Email Address<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <input type="email" id="email-address2" name="email" value="" class="form-control form-control-lg" autocomplete="off" data-msg-email="Enter a valid email." data-msg-required="Required." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="passcode">Password<span class="text-danger"> &nbsp;*</span></label>
+                    <div class="form-control-wrap">
+                        <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
+                            <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                            <em class="passcode-icon icon-hide icon ni ni-eye"></em>
+                        </a>
+                        <input name="password" id="password" type="password" autocomplete="new-password" class="form-control form-control-lg" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
+                    </div>
+                </div>
+                <div class="form-control-group d-flex justify-between mt-2 mb-gs">
+                    <div class="form-control-link">
+                        <strong id="forgot-code-btn">Forgot Code?</strong>
+                    </div>
+                </div>
+                <div class="form-group">                                        
+                    <button type="submit">Login</button>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control">
+                        <div class="form-note-s2 text-center pt-4"> New on our platform? <strong id="create-acct-btn">Create an account</strong></div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- FORGOT PASSWORD FORM -->
+
+            <div class="form forgot-password-form">
+                <div class="card-inner card-inner-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h4 class="nk-block-title">Forgot Password</h4>
+                                <div class="nk-block-des">
+                                    <p>If you forgot your password, well, then we’ll email you instructions to reset your password.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form action="" id="forgotPassword" autocomplete="off" class="form-validate is-alter">         
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="user-email">Email<span class="text-danger"> &nbsp;*</span></label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input name="email" id="forgot-pass-mail" value="" type="email" class="form-control form-control-lg" id="user-email" placeholder="Enter your email address" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Send Reset Link</button>
+                            </div>
+                        </form>
+                        <div class="form-note-s2">
+                            <strong id="return-login">Return to login</strong>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- RESET PASSWORD FORM -->
+            
+            <div class="form reset-password-form">
+                <div class="card-inner card-inner-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h4 class="nk-block-title">Reset Password</h4>
+                            <div class="nk-block-des"
+                                <p>Set a new password</p>
+                            </div>
+                        </div>
+                    </div>
+                        <form action="" id="resetPassword" autocomplete="off" class="form-validate is-alter">
+                            <input type="hidden" name="_token" value="">    
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="user-otp">OTP<span class="text-danger"> &nbsp;*</span></label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input name="otp" value="" type="text" class="form-control form-control-lg" id="admin-otp" placeholder="OTP" minlength="4" maxlength="4" required>
+                                </div>
+                            </div>        
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="user-password">Password<span class="text-danger"> &nbsp;*</span></label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input name="password" value="" type="password" class="form-control form-control-lg" id="admin-password" placeholder="Enter your new password" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="user-confirm-password">Confirm Password<span class="text-danger"> &nbsp;*</span></label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input name="confirm-password" value="" type="password" class="form-control form-control-lg" id="admin-confirm-password" placeholder="Confirm your new password" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary btn-block">Reset Password</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- POP-UP MODAL -->
+        <div class="pop" id="popup">
+            <img src="../img/check.png"/>
+            <h2>Thank You!</h2>
+            <p>Your details has been successfully submitted. Thanks!</p>
+            <button type="button" id="close-modal">OK</button>
+        </div>
+    </div>
+
+    <script src="../../../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../jscript/adminScript.js"></script>
+</body>
+</html>

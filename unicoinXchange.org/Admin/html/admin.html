@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/skull.png">
     <title>Admin | UnicoinXchange</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i&amp;display=swap" rel="stylesheet">
+    <link href="../../fronta/css/font-awesome-all.css" rel="stylesheet">
     <link href="../css/admin.css" rel="stylesheet"/>
 </head>
 <body>
@@ -11,6 +16,10 @@
         <div class="dashboard-wrap">
             <nav class="navigation">
                 <img src="../img/skull.png" alt="skull"/>
+                <div class="admin-user">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <h3></h3>
+                </div>
                 <ul>
                     <li>Get All User</li>
                     <li>Update Password</li>
@@ -21,11 +30,20 @@
                     <li>Activate Client Investment</li>
                     <li>De-Activate Client Investment</li>
                 </ul>
+                <div class="logout-btn">
+                    <i title="Logout" class="fa fa-power-off" id="logout"></i>
+                    <p>Logout</p>
+                </div>
             </nav>
             <div class="dashboard-page">
-                <h1>ACTION BOARD</h1>
+                <div class="user-cards-wrap">
+
+                </div>
             </div>
         </div>
     </div>
+
+    <script src="../../../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../jscript/adminScript.js"></script>
 </body>
 </html>

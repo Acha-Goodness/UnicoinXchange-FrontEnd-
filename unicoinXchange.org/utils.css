@@ -8,7 +8,7 @@
     align-items: center;
 }
 .fa-user{
-    color: yellowgreen;
+    color: #01CF15;
 }
 .dashboard-btn p{
     color:white;
@@ -56,7 +56,7 @@
     width:100%;
     margin-top: 50px;
     padding:10px 0;
-    background-color: #6fd649;
+    background-color: #01CF15;
     color:#fff;
     border:0;
     outline:none;

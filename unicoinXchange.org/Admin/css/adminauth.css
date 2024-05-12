@@ -1,0 +1,144 @@
+*{
+    padding: 0px;
+    margin:0px;
+    box-sizing: border-box;
+    font-family: 'Arimo', sans-serif;
+}
+.registration-wrap{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color:#EE5B07;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.form{
+    background-color: rgb(255, 255, 255);
+    margin: -50px auto 0px auto;
+    width:30%;
+    padding:3%;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px -3px rgb(0, 0, 0);
+}
+.registration-form{
+    display: none;
+}
+/* .login-form{
+    display: none;
+} */
+.otp-form{
+    display:none;
+}
+.forgot-password-form{
+    display: none;
+}
+.reset-password-form{
+    display: none;
+}
+.text-danger{
+    color:red;
+}
+.form-group{
+    margin-top: 10%;
+}
+.form-control-wrap {
+    margin-top: 5px;;
+}
+.form-control-wrap input{
+    width: 100%;
+    padding:3%;
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 7px 8px 12px -5px rgba(0,0,0,0.1);
+}
+.form-group button{
+    width:100%;
+    padding: 3% 0%;
+    border:none;
+    background-color: black;
+    color:white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.form-control-link{
+    text-align: right;
+    margin-top: 10px;
+}
+.custom-control strong, .form-control-link strong, .form-note-s2 strong{
+    color:#EE5B07;
+    cursor: pointer;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.408);
+    font-size: 13px;
+}
+.form-note-s2{
+    margin-top: 10px;
+}
+.custom-control strong{
+    margin-left: 15%;
+}
+.skull{
+    width:10%;
+    filter: drop-shadow(0px 8px 5px rgb(0, 0, 0));
+}
+/* POP-UP MODAL */
+.pop{
+    width:400px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    position:absolute;
+    top:0%;
+    left:50%; 
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0px 30px 30px;
+    color:#333;
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+.open-popup{
+    visibility: visible;
+    top:50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+.pop img{
+    width:100px;
+    margin-top: -50px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.pop h2{
+    font-size: 38px;
+    font-weight: 500;
+    margin:30px 0 10px;
+}
+.pop button{
+    width:100%;
+    margin-top: 50px;
+    padding:10px 0;
+    background-color: #01CF15;
+    color:#fff;
+    border:0;
+    outline:none;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.2);
+}
+.error{
+    color:red;
+}
+.success{
+    color:#01CF15;
+}
+.btnErr{
+    background-color: red !important;
+}
+.btnSuccess{
+    background-color: #01CF15 !important;
+}
+.logo{
+    margin-top: 12px;
+}
