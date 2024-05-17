@@ -21,11 +21,10 @@
                     <h3></h3>
                 </div>
                 <ul>
-                    <li>Get All User</li>
-                    <li>Update Password</li>
-                    <li>Get Admin</li>
-                    <li>Get All Admin</li>
-                    <li>Update Admin Details</li>
+                    <li id="get-all-user">Get All Users</li>
+                    <li id="get-all-admin">Get All Admin</li>
+                    <li id="update-admin-details">Update Admin Details</li>
+                    <li id="update-admin-password">Update Password</li>
                     <li id="del-client">Delete Client</li>
                 </ul>
                 <div class="logout-btn">
@@ -37,6 +36,64 @@
                 <div class="user-cards-wrap">
 
                 </div>
+                <div class="admins-card">
+
+                </div>
+
+                 <!--Update Admin Details Form -->
+
+                <form class="forms update-admin-details-form">
+                    <div class="form-title">
+                        <h3>UPDATE ADMIN DETAILS</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <input type="text" id="full-name" name="name" value="" placeholder="" data-msg-required="Required." data-msg-minlength="At least 3 chars." required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email-address">Email Address</label>
+                        <input type="email" id="email-address" name="email" value="" placeholder="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
+                    </div>
+                    <button class="btn" type="submit">Edit Details</button>
+                </form>
+
+                 <!-- Upadate Password Form -->
+        
+                <form class="forms update-Admin-password-form">
+                    <div class="form-title">
+                        <h3>UPDATE ADMIN PASSWORD</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Current Password</label>
+                        <input type="password" id="current-password" name="current-password" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New Password</label>
+                        <input type="password" id="new-password" name="new-password" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" value="" required/>
+                    </div>
+                    <button class="btn" type="submit">Update Password</button>
+                </form>
+
+                <!-- Upadate Client Investment Form -->
+    
+                <form class="forms update-cli-inv-form">
+                    <div class="form-title">
+                        <h3>Update Client Investment Amount Form</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Amount</label>
+                        <input type="number" id="ammount" name="investment-Amount" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">Coin</label>
+                        <input type="text" id="coin-type" name="crypto-coin" value="" required/>
+                    </div>
+                    <button class="btn" type="submit">Update Amount</button>
+                </form>
             </div>
         </div>
     </div>
