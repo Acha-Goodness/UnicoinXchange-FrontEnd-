@@ -9,6 +9,7 @@
     <title>Login | UnicoinXchange</title>
     <link rel="shortcut icon" href="favicon.png">
     <link rel="stylesheet" href="https://extostock.org/assets/css/apps.css?ver=120">
+    <link href="fronta/css/font-awesome-all.css" rel="stylesheet">
     <link href="utils.css" rel="stylesheet">
     <meta property="og:title" content="Login | UnicoinXchange">
 	
@@ -57,10 +58,10 @@
                     <label class="form-label" for="passcode">Password <span class="text-danger">*</span></label>
                 </div>
                 <div class="form-control-wrap">
-                    <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="passcode">
-                        <em class="passcode-icon icon-show icon ni ni-eye-off"></em>
-                        <em class="passcode-icon icon-hide icon ni ni-eye"></em>
-                    </a>
+                    <div class="show-password">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    </div>
                 <input name="password" autocomplete="new-password" type="password" class="form-control form-control-lg" id="login-passcode" placeholder="Enter your passcode" minlength="6" data-msg-required="Required." data-msg-minlength="At least 6 chars." required>
             </div>
                 <div class="form-control-group d-flex justify-between mt-2 mb-gs">

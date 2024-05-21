@@ -76,6 +76,45 @@ const loadUser = () => {
 };
 
 // USER REGISTRATION
+const eye = document.querySelector(".fa-eye");
+const eyeSlash = document.querySelector(".fa-eye-slash");
+const confirmEye = document.querySelector(".con-eye");
+const confirmSlashEye = document.querySelector(".con-slash-eye");
+
+    eye && eye.addEventListener("click", () => {
+        password && password.setAttribute('type', 'text');
+        loginPassword && loginPassword.setAttribute('type', 'text');
+        resetPass && resetPass.setAttribute('type', 'text');
+
+        eye.style.display = "none";
+        eyeSlash.style.display = "block";
+    });
+
+    eyeSlash && eyeSlash.addEventListener("click", () => {
+        password && password.setAttribute('type', 'password');
+        loginPassword && loginPassword.setAttribute('type', 'password');
+        resetPass && resetPass.setAttribute('type', 'password');
+    
+        eyeSlash.style.display = "none";
+        eye.style.display = "block";
+    });
+
+    confirmEye && confirmEye.addEventListener("click", () => {
+        passwordConfirm && passwordConfirm.setAttribute('type', 'text');
+        confirmResetPass && confirmResetPass.setAttribute('type', 'text');
+
+        confirmEye.style.display = "none";
+        confirmSlashEye.style.display = "block";
+    });
+
+    confirmSlashEye && confirmSlashEye.addEventListener("click", () => {
+        passwordConfirm && passwordConfirm.setAttribute('type', 'password');
+        confirmResetPass && confirmResetPass.setAttribute('type', 'password');
+
+        confirmSlashEye.style.display = "none";
+        confirmEye.style.display = "block";
+    })
+
 const setPopUpMsg = (message, location, status) => {
     
     const notification = {
@@ -102,7 +141,7 @@ const register = () => {
     }).catch(err => {
         console.log(err);
         const status = "error"
-        const message = err.message;
+        const message = err.response.data.message;
         setPopUpMsg(message, null, status)
     });
 };
@@ -126,7 +165,7 @@ const verifyOtp = () => {
     }).catch(err => {
         console.log(err);
         const status = "error"
-        const message = err.message;
+        const message = err.response.data.message;
         setPopUpMsg(message, null, status)
     });
 };
@@ -151,7 +190,7 @@ const login = () => {
     }).catch(err => {
         console.log(err);
         const status = "error"
-        const message = err.message;
+        const message = err.response.data.message;
         setPopUpMsg(message, null, status)
     });
 };

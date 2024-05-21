@@ -77,6 +77,27 @@
 .side-logo{
     width:80%;
 }
+.show-password{
+    width:10%;
+    position: absolute;
+    right:-18px;
+    top:30%;
+    cursor: pointer;
+}
+.show-passwordd{
+    width:10%;
+    position: absolute;
+    right:-18px;
+    top:30%;
+    cursor: pointer;
+    z-index: 1;
+}
+.fa-eye-slash{
+    display: none;
+}
+.reset-con{
+    padding-top: 5%;
+}
 @media only screen and (max-width:600px){
     .logo{
         margin-top: 12px;
@@ -88,6 +109,5 @@
     .logo-img{
         width: 300% !important;
     }
-    
 }
 

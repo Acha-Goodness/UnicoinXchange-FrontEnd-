@@ -22,12 +22,12 @@
     border-radius: 5px;
     box-shadow: 0px 10px 15px -3px rgb(0, 0, 0);
 }
-.registration-form{
-    display: none;
-}
 /* .login-form{
     display: none;
 } */
+.registration-form{
+    display: none;
+}
 .otp-form{
     display:none;
 }
@@ -61,6 +61,7 @@
     color:white;
     font-weight: bold;
     border-radius: 5px;
+    cursor: pointer;
 }
 .form-control-link{
     text-align: right;
@@ -141,4 +142,14 @@
 }
 .logo{
     margin-top: 12px;
+}
+.show-password{
+    width:10%;
+    position: absolute;
+    right:30%;
+    cursor: pointer;
+    margin-top: 1%;
+}
+.fa-eye-slash{
+    display: none;
 }

@@ -1,3 +1,77 @@
+ // NOTIFICATION POPUP MODAL
+ const modal = document.getElementById("popup");
+ const closeModalBtn = document.getElementById("close-modal");
+
+ const openPopup = () => {
+     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
+     
+     if(window.location.pathname === '/unicoinXchange.org/index.html'){
+         modal.style.top = "64%";
+     }
+
+     if(navigate.status === "error"){
+         modal.children[0].src = "../img/error.png"
+         modal.children[1].innerHTML = "Error!!!"
+         modal.children[2].innerHTML = navigate.message
+         modal.children[1].classList.add("error");
+         modal.children[3].classList.add("btnErr");
+         modal.classList.add("open-popup");
+     }
+     if(navigate.status === "success"){
+         modal.children[0].src = "../img/check.png"
+         modal.children[1].innerHTML = "Thank You!"
+         modal.children[2].innerHTML = navigate.message
+         modal.children[1].classList.add("success");
+         modal.children[3].classList.add("btnSuccess");
+         modal.classList.add("open-popup");
+     }
+ };
+
+ closeModalBtn && closeModalBtn.addEventListener("click", () => {
+     const registrationForm = document.querySelector(".registration-form");
+     const otpForm = document.querySelector(".otp-form");
+     const forgotForm = document.querySelector(".forgot-password-form");
+     const resetForm = document.querySelector(".reset-password-form");
+
+     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"))
+     
+     modal.classList.remove("open-popup");
+     if(navigate.status === "error") return;
+
+     if(navigate.formId === "reg"){
+         registrationForm.style.display = "none";  
+         otpForm.style.display = "block";
+      }
+      if(navigate.formId === "forgotPass"){
+         forgotForm.style.display = "none";
+         resetForm.style.display = "block";
+      };
+
+      sessionStorage.removeItem("notificationMsg");
+     if(navigate.location !== null) window.location.href = navigate.location;  
+ });
+
+// SET POPUP MESSAGE
+  const setPopUpMsg = (message, location, status, formId) => {
+            
+    const notification = {
+        status:status,
+        message:message,
+        location:location,
+        formId:formId
+    };
+
+    sessionStorage.setItem("notificationMsg", JSON.stringify(notification));
+    openPopup();
+};
+
+
+// STORE JWT TO LOCAL STORAGE
+    const storeJWT = (JWTToken, userData) => {
+    localStorage.setItem("adminJwtToken", JWTToken);
+    localStorage.setItem("adminData", JSON.stringify(userData));
+};
+
 if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html'){
 
         const createAcctLink = document.getElementById("create-acct-btn");
@@ -29,82 +103,9 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             loginForm.style.display = "block";
         });
 
-        // NOTIFICATION POPUP MODAL
-        const modal = document.getElementById("popup");
-        const closeModalBtn = document.getElementById("close-modal");
-
-        const openPopup = () => {
-            const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
-            
-            if(window.location.pathname === '/unicoinXchange.org/index.html'){
-                modal.style.top = "64%";
-            }
-
-            console.log("Status: ", navigate.status)
-            if(navigate.status === "error"){
-                modal.children[0].src = "../img/error.png"
-                modal.children[1].innerHTML = "Error!!!"
-                modal.children[2].innerHTML = navigate.message
-                modal.children[1].classList.add("error");
-                modal.children[3].classList.add("btnErr");
-                modal.classList.add("open-popup");
-            }
-            if(navigate.status === "success"){
-                modal.children[0].src = "../img/check.png"
-                modal.children[1].innerHTML = "Thank You!"
-                modal.children[2].innerHTML = navigate.message
-                modal.children[1].classList.add("success");
-                modal.children[3].classList.add("btnSuccess");
-                modal.classList.add("open-popup");
-            }
-        };
-
-        closeModalBtn && closeModalBtn.addEventListener("click", () => {
-            const registrationForm = document.querySelector(".registration-form");
-            const otpForm = document.querySelector(".otp-form");
-            const forgotForm = document.querySelector(".forgot-password-form");
-            const resetForm = document.querySelector(".reset-password-form");
-
-            const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"))
-            
-            modal.classList.remove("open-popup");
-            if(navigate.status === "error") return;
-
-            if(navigate.formId === "reg"){
-                registrationForm.style.display = "none";  
-                otpForm.style.display = "block";
-             }
-             if(navigate.formId === "forgotPass"){
-                forgotForm.style.display = "none";
-                resetForm.style.display = "block";
-             };
-
-             sessionStorage.removeItem("notificationMsg");
-            if(navigate.location !== null) window.location.href = navigate.location;  
-        });
-
-        // STORE JWT TO LOCAL STORAGE
-        const storeJWT = (JWTToken, userData) => {
-            localStorage.setItem("adminJwtToken", JWTToken);
-            localStorage.setItem("adminData", JSON.stringify(userData));
-        };
-
         // ADMIN REGISTRATION
         const registrationForm = document.querySelector(".registration-form");
 
-        // SET POPUP MESSAGE
-        const setPopUpMsg = (message, location, status, formId) => {
-            
-            const notification = {
-                status:status,
-                message:message,
-                location:location,
-                formId:formId
-            };
-
-            sessionStorage.setItem("notificationMsg", JSON.stringify(notification));
-            openPopup();
-        };
 
         const register = () => {
             const fullName = document.getElementById("full-name");
@@ -125,7 +126,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 setPopUpMsg(message, null, status, formId);
             }).catch(err => {
                 const status = "error"
-                const message = err.message;
+                const message = err.response.data.message;
                 setPopUpMsg(message, null, status, null);
             });
         };
@@ -151,9 +152,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const location = 'admin.html'
                 setPopUpMsg(message, location, status, null)
             }).catch(err => {
-                console.log(err);
                 const status = "error"
-                const message = err.message;
+                const message = err.response.data.message;
                 setPopUpMsg(message, null, status, null)
             });
         };
@@ -181,7 +181,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const location = 'admin.html'
                 setPopUpMsg(message, location, status, null)
             }).catch(err => {
-                console.log(err);
                 const status = "error"
                 const message = err.response.data.message;
                 setPopUpMsg(message, null, status, null)
@@ -195,7 +194,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
 
         // FORGOT PASSWORD
-
         const forgotPasswordForm = document.getElementById("forgotPassword");
 
         const forgotPassword = () => {
@@ -210,7 +208,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 setPopUpMsg(message, null, status, formId)
             }).catch(err => {
                 const status = "error"
-                const message = err.message;
+                const message = err.response.data.message;
                 setPopUpMsg(message, null, status, null)
             });
         };
@@ -245,14 +243,116 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             e.preventDefault();
             resetPassword();
         })
+
+
+        //  TOGGLE VIEW PASSWORD
+        const adminPassword = document.getElementById("passcode")
+        const passwordConfirm = document.getElementById("passcodeConfirm");
+        const loginPassword = document.getElementById("password");
+        const resetPass = document.getElementById("admin-password");
+        const confirmResetPass = document.getElementById("admin-confirm-password");
+        const eye = document.querySelector(".fa-eye");
+        const eyeSlash = document.querySelector(".fa-eye-slash");
+        const loginEye = document.querySelector(".login-eye");
+        const loginEyeSlash = document.querySelector(".login-eye-slash")
+        const confirmEye = document.querySelector(".con-eye");
+        const confirmSlashEye = document.querySelector(".con-slash-eye");
+        const resetPassEye = document.querySelector(".reset-pass-eye");
+        const resetPassEyeSlash = document.querySelector(".reset-pass-eye-slash");
+        const resetConEye = document.querySelector(".reset-con-eye");
+        const resetConSlashEye = document.querySelector(".reset-con-slash-eye")
+
+        eye && eye.addEventListener("click", () => {
+            console.log(loginPassword);
+            adminPassword && adminPassword.setAttribute('type', 'text');
+            resetPass && resetPass.setAttribute('type', 'text');
+
+            eye.style.display = "none";
+            eyeSlash.style.display = "block";
+        });
+
+        eyeSlash && eyeSlash.addEventListener("click", () => {
+            adminPassword && adminPassword.setAttribute('type', 'password');
+            loginPassword && loginPassword.setAttribute('type', 'password');
+            resetPass && resetPass.setAttribute('type', 'password');
+        
+            eyeSlash.style.display = "none";
+            eye.style.display = "block";
+        });
+
+        loginEye && loginEye.addEventListener("click", () => {
+            loginPassword && loginPassword.setAttribute('type', 'text');
+
+            loginEye.style.display = "none";
+            loginEyeSlash.style.display = "block";
+        });
+
+        loginEyeSlash && loginEyeSlash.addEventListener("click", () => {
+            loginPassword && loginPassword.setAttribute('type', 'password');
+
+            loginEye.style.display = "block";
+            loginEyeSlash.style.display = "none";
+        });
+
+        confirmEye && confirmEye.addEventListener("click", () => {
+            passwordConfirm && passwordConfirm.setAttribute('type', 'text');
+            confirmResetPass && confirmResetPass.setAttribute('type', 'text');
+
+            confirmEye.style.display = "none";
+            confirmSlashEye.style.display = "block";
+        });
+
+        confirmSlashEye && confirmSlashEye.addEventListener("click", () => {
+            passwordConfirm && passwordConfirm.setAttribute('type', 'password');
+            confirmResetPass && confirmResetPass.setAttribute('type', 'password');
+
+            confirmSlashEye.style.display = "none";
+            confirmEye.style.display = "block";
+        })
+
+        resetPassEye && resetPassEye.addEventListener("click", () => {
+            const adminPassword = document.getElementById("admin-password");
+
+            adminPassword.setAttribute('type', 'text');
+            resetPassEye.style.display = "none";
+            resetPassEyeSlash.style.display = "block";
+        });
+
+        resetPassEyeSlash && resetPassEyeSlash.addEventListener("click", () => {
+            const adminPassword = document.getElementById("admin-password");
+
+            adminPassword.setAttribute('type', 'password');
+            resetPassEyeSlash.style.display = "none";
+            resetPassEye.style.display = "block";
+        });
+
+        resetConEye && resetConEye.addEventListener("click", () => {
+            const adminConfirmPassword = document.getElementById("admin-confirm-password");
+
+            adminConfirmPassword.setAttribute('type', 'text');
+            resetConEye.style.display = "none";
+            resetConSlashEye.style.display = "block";
+        })
+
+        resetConSlashEye && resetConSlashEye.addEventListener("click", () => {
+            const adminConfirmPassword = document.getElementById("admin-confirm-password");
+
+            adminConfirmPassword.setAttribute('type', 'password');
+            resetConSlashEye.style.display = "none";
+            resetConEye.style.display = "block";
+        })
+
+
 }
+
+
+
 
 
 // MAIN ADMIN DASHBOARD
 if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
     const displayUsers = (users) => {
-        
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         
         Array.from(users).map(user => {
@@ -323,8 +423,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         retriveCards(users)
     };
 
-      // UPDATE CLIENT INVESTMENT AMOUNT
-      const updateClientInvesmentAmtForm = (userId) => {
+    // UPDATE CLIENT INVESTMENT AMOUNT
+    const updateClientInvesmentAmtForm = (userId) => {
 
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         const updateAdminDetailsForm = document.querySelector(".update-admin-details-form");
@@ -340,10 +440,9 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         UpdateCliInvestForm.style.display = "block";
         delBtn.style.display = "none";
 
-        const jwtToken = localStorage.getItem("adminJwtToken")
-
         UpdateCliInvestForm.addEventListener("submit", (e) => {
             e.preventDefault();
+            const jwtToken = localStorage.getItem("adminJwtToken")
         
             const amount = document.getElementById("ammount");
             const coin = document.getElementById("coin-type");
@@ -356,45 +455,62 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                     "Content-Type" : 'application/json',
                     "Authorization" : `Bearer ${jwtToken}`
             }}).then(res => {
-                console.log(res)
+                const status = "success"
+                const message = res.data.message;
+                setPopUpMsg(message, null, status, null)
             }).catch(err => {
-                console.log(err)
+                const status = "error"
+                const message = err.response.data.message;
+                setPopUpMsg(message, null, status, null)
             })
         });
-      };
+    };
 
-      const activateClientInvesment = (userId) => {
+    // ACTIVATE CLIENT INVESTMENT
+    const activateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken")
-        console.log(jwtToken)
-        console.log(userId)
-        axios.post(`http://127.0.0.1:7000/api/v1/admin/activateUserInvestment/${userId}`, {
+    
+        axios.post(`http://127.0.0.1:7000/api/v1/admin/activateUserInvestment`, {
+            id: userId
+        },{
             headers: {
                 "Content-Type" : 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
             }
         }).then(res => {
-            console.log(res)
+            const status = "success"
+            const message = res.data.message;
+            setPopUpMsg(message, null, status, null)
         }).catch(err => {
-            console.log(err)
+            const status = "error"
+            const message = err.response.data.message;
+            setPopUpMsg(message, null, status, null)
         })
-      };
+    };
 
-      const deActivateClientInvesment = (userId) => {
+    // DE-ACTIVATE CLIENT INVESTMENT
+    const deActivateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken");
           
-        axios.post(`http://127.0.0.1:7000/api/v1/admin/deactivateUserInvestment/${userId}`,{
+        axios.post(`http://127.0.0.1:7000/api/v1/admin/deactivateUserInvestment`,{
+            id: userId
+        },{
             headers: {
                 "Content-Type" : 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
             }
         }).then(res => {
-            console.log(res)
+            const status = "success";
+            const message = res.data.message;
+            setPopUpMsg(message, null, status, null);
         }).catch(err => {
-            console.log(err)
+            const status = "error";
+            const message = err.response.data.message;
+            setPopUpMsg(message, null, status, null);
         })
-      };
+    };
 
-      const  retriveCards = () => {
+    const  retriveCards = () => {
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         if(userCardsWrap.children !== null){
             const userCards = userCardsWrap.getElementsByClassName("user-card");
@@ -420,7 +536,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const getAllUser = () => {
         const jwtToken = localStorage.getItem("adminJwtToken")
         
-        axios.get("http://127.0.0.1:7000/api/v1/admin/getAllUsers", {
+        axios.get(`http://127.0.0.1:7000/api/v1/admin/getAllUsers`, {
             headers: {
                 "Content-Type" : 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
@@ -432,7 +548,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         });
     }
     
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', (e) => {
+        e.stopImmediatePropagation();
         const adminData = JSON.parse(localStorage.getItem("adminData"));
         
         const adminNameWrap = document.querySelector(".admin-user");
@@ -511,6 +628,16 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         delBtn.style.display = "none";
 
         if(adminsCard.style.display === "none") adminsCard.style.display = "flex";
+
+        // MOBILE FUNCTION
+
+        const navigation = document.querySelector(".navigation");
+        const closeBtn = document.querySelector(".fa-times");
+        const hamBurger = document.querySelector(".fa-bars");
+
+        navigation.classList.toggle("active-nav");
+        closeBtn.style.display = "none";
+        hamBurger.style.display = "block";
     });
 
     // UPDATE ADMIN DETAILS
@@ -534,30 +661,44 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         delBtn.style.display = "none";
         updateAdminDetailsForm.style.display = "block";
 
-        const jwtToken = localStorage.getItem("adminJwtToken");
-
         updateAdminDetailsForm.addEventListener("submit", (e) => {
             e.preventDefault();
+
+            const jwtToken = localStorage.getItem("adminJwtToken");
 
             const fullName = document.getElementById("full-name");
             const emailAddress = document.getElementById("email-address");
 
-            console.log(fullName.value);
-            console.log(emailAddress.value);
-
-            axios.patch(`http://127.0.0.1:7000/api/v1/admin/`,{
-                    name: fullName.value.trim(),
-                    email: emailAddress.value.trim(),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Authorization" : `Bearer ${jwtToken}`
-                    }
-                }).then(res => {
-                    console.log(res)
-                }).catch(err => {
-                    console.log(err)
-                })
+            axios.patch("http://127.0.0.1:7000/api/v1/admin/",{
+                name: fullName.value.trim(),
+                email: emailAddress.value.trim(),
+                },{
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization" : `Bearer ${jwtToken}`
+                }
+            }).then(res => {
+                localStorage.setItem("adminData", JSON.stringify(res.data.data.user));
+                const status = "success";
+                const message = res.data.message;
+                setPopUpMsg(message, null, status, null);
+            }).catch(err => {
+                const status = "error";
+                const message = err.response.data.message;
+                setPopUpMsg(message, null, status, null);
+            })
         })
+
+        
+        // MOBILE FUNCTION
+
+        const navigation = document.querySelector(".navigation");
+        const closeBtn = document.querySelector(".fa-times");
+        const hamBurger = document.querySelector(".fa-bars");
+
+        navigation.classList.toggle("active-nav");
+        closeBtn.style.display = "none";
+        hamBurger.style.display = "block";
     })
 
     // UPDATE ADMIN PASSWORD
@@ -594,16 +735,33 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                     currentPassword: currentPassword.value.trim(),
                     password: newPassword.value.trim(),
                     passwordConfirm: confirmPassword.value.trim(),
+                 },{
                     headers: {
                         "Content-Type": 'application/json',
                         "Authorization" : `Bearer ${jwtToken}`
                     }
                 }).then(res => {
-                    console.log(res)
+                    localStorage.setItem("adminJwtToken", res.data.JWTToken);
+                    const status = "success";
+                    const message = "Password updated successfully";
+                    setPopUpMsg(message, null, status, null);
                 }).catch(err => {
-                    console.log(err)
+                    const status = "error";
+                    const message = err.response.data.message;
+                    setPopUpMsg(message, null, status, null);
                 })
         });
+
+        
+        // MOBILE FUNCTION
+
+        const navigation = document.querySelector(".navigation");
+        const closeBtn = document.querySelector(".fa-times");
+        const hamBurger = document.querySelector(".fa-bars");
+
+        navigation.classList.toggle("active-nav");
+        closeBtn.style.display = "none";
+        hamBurger.style.display = "block";
     });
 
     // LOGOUT
@@ -614,4 +772,25 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         localStorage.removeItem("adminData");
         window.location.href =  'adminAuth.html';
     });
+
+
+    // MOBILE FUNCTIONALITY
+
+    const navigation = document.querySelector(".navigation");
+    const hamBurger = document.querySelector(".fa-bars");
+    const closeBtn = document.querySelector(".fa-times");
+
+    hamBurger.addEventListener("click", () => {
+        navigation.classList.toggle("active-nav");
+
+        hamBurger.style.display = "none";
+        closeBtn.style.display = "block";
+    })
+
+    closeBtn.addEventListener("click", () => {
+        hamBurger.style.display = "block";
+        closeBtn.style.display = "none";
+
+        navigation.classList.toggle("active-nav");
+    })
 }
