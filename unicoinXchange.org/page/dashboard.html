@@ -19,8 +19,8 @@
     <link href="../fronta/css/rtl.css" rel="stylesheet">
     <link href="../fronta/css/style.css" rel="stylesheet">
     <link href="../fronta/css/responsive.css" rel="stylesheet">
-    <link href="../fronta//css/dashboard.css" rel="stylesheet">
     <link href="../utils.css" rel="stylesheet">
+    <link href="../fronta/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
     <!-- Preloader -->
@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- main header -->
-    <header class="main-header style-one style-six">
+    <header class="main-header style-one style-six dash-header">
         <div class="header-top">
         <div class="auto-container">
             <div class="top-inner clearfix">
@@ -138,7 +138,9 @@
             </div>
             <div class="acct-info">
                 <ul class="dashboard-nav">
-                    <li>Quick Deposit</li>
+                    <a href="select-wallet.html">
+                        <li>Quick Deposit</li>
+                    </a>
                     <li>Withdraw</li>
                     <li>Transactions</li>
                     <li>
@@ -201,9 +203,9 @@
                         </div>
 
                         <div class="card1">
-                            <div>
+                            <div id="total-profit">
                                 <p>Available Profit</p>
-                                <h1>$0.00</h1>
+                                <h1>$<span>0</span>.00</h1>
                             </div>
                             <i class="fa fa-database" aria-hidden="true"></i>
                         </div>
@@ -274,17 +276,30 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="current-password">Current Password</label>
+                    <div class="show-passworrd">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                    </div>
                     <input type="password" id="current-password" name="current-password" value="" required/>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="new-password">New Password</label>
+                    <div class="show-passworrd">
+                        <i class="fa fa-eye new-pass-eye" aria-hidden="true"></i>
+                        <i class="fa fa-eye-slash new-pass-slash-eye" aria-hidden="true"></i>
+                    </div>
                     <input type="password" id="new-password" name="new-password" value="" required/>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="confirm-password">Confirm Password</label>
+                    <div class="show-passworrd">
+                        <i class="fa fa-eye confirm-eye-pass" aria-hidden="true"></i>
+                        <i class="fa fa-eye-slash confirm-eye-pass-slash" aria-hidden="true"></i>
+                    </div>
                     <input type="password" id="confirm-password" name="confirm-password" value="" required/>
                 </div>
                 <button class="btn" type="submit">Update Password</button>
+                <p class="pass-err-msg"></p>
             </form>
           
 
@@ -309,7 +324,7 @@
                             <div class="footer-widget logo-widget">
                                 <figure class="footer-logo">
                                     <a href="../index.html">
-                                        <img class="logo-img logo-light" src="../fronta/images/icons/unicoin.png" alt="UnicoinExchange">
+                                        <img class="logo-img logo-light dash-footer-logo" src="../fronta/images/icons/unicoin.png" alt="UnicoinExchange">
                                     </a>
                                 </figure>
                                 <ul class="info-list clearfix">
@@ -402,7 +417,6 @@
                                         <img class="logo-img logo-light" src="../fronta/images/icons/unicoinBlk.png" alt="UnicoinXchange">
                                     </a>
                                 </div>
-
                             </div>
                             <div class="side-menu-box">
                                 <div class="side-menu">

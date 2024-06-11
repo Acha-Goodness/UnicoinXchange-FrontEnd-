@@ -113,6 +113,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             const password = document.getElementById("passcode");
             const passwordConfirm = document.getElementById("passcodeConfirm");
 
+            if(password.value !== passwordConfirm.value){
+                const errMsg = document.querySelector(".pass-err-msg")
+                errMsg.innerText = "Passwords must be the same";
+                return;
+            }
+
             axios.post("http://127.0.0.1:7000/api/v1/admin/adminSignUp", {
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
@@ -222,9 +228,16 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const resetPasswordForm = document.getElementById("resetPassword");
 
         const resetPassword = () => {
+            
             const resetPassOtp = document.getElementById("admin-otp");
             const newPass = document.getElementById("admin-password");
             const confirmResetPass = document.getElementById("admin-confirm-password");
+
+            if(newPass.value !== confirmResetPass.value){
+                const errMsg = document.querySelector(".pass-err-msgg")
+                errMsg.innerText = "Passwords must be the same";
+                return;
+            }
 
             axios.patch("http://127.0.0.1:7000/api/v1/admin/adminResetPassword", {
                 otp: resetPassOtp.value.trim(),
@@ -341,12 +354,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             resetConSlashEye.style.display = "none";
             resetConEye.style.display = "block";
         })
-
-
 }
-
-
-
 
 
 // MAIN ADMIN DASHBOARD
@@ -731,6 +739,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             const newPassword = document.getElementById("new-password");
             const confirmPassword = document.getElementById("confirm-password");
 
+            if(newPassword.value !== confirmPassword.value){
+                const errMsg = document.querySelector(".pass-err-msg")
+                errMsg.innerText = "Passwords must be the same";
+                return;
+            }
+
             axios.patch(`http://127.0.0.1:7000/api/v1/admin/adminUpdatePassword`,{
                     currentPassword: currentPassword.value.trim(),
                     password: newPassword.value.trim(),
@@ -752,7 +766,61 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                 })
         });
 
-        
+        // SHOW PASSWORD
+
+        // CURRENT PASS WORD
+        const currentPassEye = document.querySelector(".fa-eye");
+        const currPassSlashEye = document.querySelector(".fa-eye-slash");
+        const currentPassInput = document.getElementById("current-password");
+
+        currentPassEye && currentPassEye.addEventListener("click", () => {
+            currentPassInput.setAttribute("type", "text");
+            currentPassEye.style.display = "none";
+            currPassSlashEye.style.display = "block"
+        });
+
+        currPassSlashEye && currPassSlashEye.addEventListener("click", () => {
+            currentPassInput.setAttribute("type", "password");
+            currPassSlashEye.style.display = "none"
+            currentPassEye.style.display = "block";
+            
+        })
+
+        // // NEW PASSWORD
+        const newPassEye = document.querySelector(".new-pass-eye");
+        const newPassSlashEye = document.querySelector(".new-pass-slash-eye");
+        const newPasswordInput = document.getElementById("new-password");
+
+        newPassEye && newPassEye.addEventListener("click", () => {
+            newPasswordInput.setAttribute("type", "text");
+            newPassEye.style.display = "none";
+            newPassSlashEye.style.display = "block"
+        });
+
+        newPassSlashEye && newPassSlashEye.addEventListener("click", () => {
+            newPasswordInput.setAttribute("type", "password");
+            newPassSlashEye.style.display = "none"
+            newPassEye.style.display = "block";
+            
+        })
+
+        // // CONFIRM PASSWORD
+        const confirmEyePass = document.querySelector(".confirm-eye-pass");
+        const confirmEyePassSlash = document.querySelector(".confirm-eye-pass-slash");
+        const confirmPasswordInput = document.getElementById("confirm-password");
+
+        confirmEyePass && confirmEyePass.addEventListener("click", () => {
+            confirmPasswordInput.setAttribute("type", "text");
+            confirmEyePass.style.display = "none";
+            confirmEyePassSlash.style.display = "block"
+        });
+
+        confirmEyePassSlash && confirmEyePassSlash.addEventListener("click", () => {
+            confirmPasswordInput.setAttribute("type", "password");
+            confirmEyePassSlash.style.display = "none"
+            confirmEyePass.style.display = "block"; 
+        })
+
         // MOBILE FUNCTION
 
         const navigation = document.querySelector(".navigation");
@@ -793,4 +861,5 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
         navigation.classList.toggle("active-nav");
     })
+
 }

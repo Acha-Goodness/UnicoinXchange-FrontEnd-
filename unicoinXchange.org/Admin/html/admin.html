@@ -74,17 +74,30 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="current-password">Current Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                        </div>
                         <input type="password" id="current-password" name="current-password" value="" required/>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="new-password">New Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye new-pass-eye" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash new-pass-slash-eye" aria-hidden="true"></i>
+                        </div>
                         <input type="password" id="new-password" name="new-password" value="" required/>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye confirm-eye-pass" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash confirm-eye-pass-slash" aria-hidden="true"></i>
+                        </div>
                         <input type="password" id="confirm-password" name="confirm-password" value="" required/>
                     </div>
                     <button class="btn" type="submit">Update Password</button>
+                    <p class="pass-err-msg"></p>
                 </form>
 
                 <!-- Upadate Client Investment Form -->

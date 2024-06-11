@@ -321,6 +321,22 @@
 .btnSuccess{
     background-color: #01CF15 !important;
 }
+.show-password{
+    width:10%;
+    position: absolute;
+    right:13%;
+    cursor: pointer;
+    margin-top: 1.5%;
+}
+.fa-eye-slash{
+    display: none;
+}
+.pass-err-msg{
+    color:red;
+    text-align: center;
+    margin-top: 2%;
+    font-size: 12px;
+}
 
 @media only screen and (max-width:600px){
     .admin-dashboard{
@@ -404,5 +420,12 @@
     }
     .btn{
         padding:3% 0%;
+    }
+    .show-password{
+        margin-top: 4%;
+        right:4%;
+    }
+    .pop{
+        width:300px;
     }
 }

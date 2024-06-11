@@ -148,8 +148,43 @@
     position: absolute;
     right:30%;
     cursor: pointer;
-    margin-top: 1%;
+    margin-top: 0.7%;
 }
 .fa-eye-slash{
     display: none;
+}
+.pass-err-msg{
+    color:red;
+    text-align: center;
+    margin-top: 2%;
+    font-size: 12px;
+}
+.pass-err-msgg{
+    color:red;
+    text-align: center;
+    margin-top: 2%;
+    font-size: 12px;
+}
+@media only screen and (max-width:600px){
+    .form{
+        background-color: rgb(255, 255, 255);
+        margin: -50px auto 0px auto;
+        width:95%;
+        padding:3%;
+        border-radius: 5px;
+        box-shadow: 0px 10px 15px -3px rgb(0, 0, 0);
+    }
+    .show-password{
+        margin-top: 10px;
+        right:5%;
+    }
+    .skull{
+        width:30%;
+    }
+    .custom-control strong{
+        margin-left: 5%;
+    }
+    .pop{
+        width:300px;
+    }
 }

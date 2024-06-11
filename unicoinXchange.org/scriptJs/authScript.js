@@ -31,12 +31,19 @@ const openPopup = () => {
     if(navigate.status === "error"){
         modal.children[0].src = "./fronta/images/icons/error.png"
         modal.children[1].innerHTML = "Error!!!"
+        modal.children[2].innerHTML = navigate.message
         modal.children[1].classList.add("error");
         modal.children[3].classList.add("btnErr");
         modal.classList.add("open-popup")
     }
-    modal.children[2].innerHTML = navigate.message
-    modal.classList.add("open-popup")
+    if(navigate.status === "success"){
+        modal.children[0].src = "./fronta/images/icons/check.png"
+        modal.children[1].innerHTML = "Thank You!"
+        modal.children[2].innerHTML = navigate.message
+        modal.children[1].classList.add("success");
+        modal.children[3].classList.add("btnSuccess");
+        modal.classList.add("open-popup");
+    }
 };
 
 closeModalBtn && closeModalBtn.addEventListener("click", () => {
@@ -127,6 +134,12 @@ const setPopUpMsg = (message, location, status) => {
 };
 
 const register = () => {
+    if(password.value !== passwordConfirm.value){
+        const errMsg = document.querySelector(".pass-err-msg")
+        errMsg.innerText = "Passwords must be the same";
+        return;
+    }
+
     axios.post("http://127.0.0.1:7000/api/v1/users/userSignUp", {
         name: fullname.value.trim(),
         email: email.value.trim(),
@@ -219,6 +232,12 @@ forgotPassForm && forgotPassForm.addEventListener("submit", (e) => {
 
 // RESET PASSWORD
 const resetPassword = () => {
+    if(resetPass.value !== confirmResetPass.value){
+        const errMsg = document.querySelector(".pass-err-msg")
+        errMsg.innerText = "Passwords must be the same";
+        return;
+    }
+
     axios.patch("http://127.0.0.1:7000/api/v1/users/userResetPassword", {
         otp: resetPassOtp.value.trim(),
         password: resetPass.value.trim(),
@@ -332,6 +351,8 @@ const populateDashboard = (data) => {
     const bonus = document.getElementById("bonus");
     const totalDeposit = document.getElementById("total-deposit");
     const totalWithdraw = document.getElementById("total-withdraw");
+    const availableProfit = document.getElementById("total-profit");
+
 
     let totAmt = 0;
     data.data.transactionHistory.map(el => totAmt += el.amount);
@@ -343,6 +364,7 @@ const populateDashboard = (data) => {
         acctBlc.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
         bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
         totalWithdraw.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
+        availableProfit.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount - 2000;
     };
     
     if(data.data.investmentStatus === false){
@@ -389,6 +411,11 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
         const newPassword = document.getElementById("new-password");
         const confirmPassword = document.getElementById("confirm-password");
 
+        if(newPassword.value !== confirmPassword.value){
+            const errMsg = document.querySelector(".pass-err-msg")
+            errMsg.innerText = "Passwords must be the same";
+            return;
+        }
 
         axios.patch("http://127.0.0.1:7000/api/v1/users/userUpdatePassword", {
                 currentPassword: currentPass.value.trim(),
@@ -493,6 +520,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // AUTHENTICATE EDIT FORMS
      authenticateEditForms(updateDetailsForm, updatePasswordForm);
+
+    // USER DASHBOARD SHOW PASSWORD
+
+    // CURRENT PASS WORD
+    const currentPassEye = document.querySelector(".fa-eye");
+    const currPassSlashEye = document.querySelector(".fa-eye-slash");
+    const currentPassInput = document.getElementById("current-password");
+
+    currentPassEye && currentPassEye.addEventListener("click", () => {
+        currentPassInput.setAttribute("type", "text");
+        currentPassEye.style.display = "none";
+        currPassSlashEye.style.display = "block"
+    });
+
+    currPassSlashEye && currPassSlashEye.addEventListener("click", () => {
+        currentPassInput.setAttribute("type", "password");
+        currPassSlashEye.style.display = "none"
+        currentPassEye.style.display = "block";
+        
+    })
+
+    // // NEW PASSWORD
+    const newPassEye = document.querySelector(".new-pass-eye");
+    const newPassSlashEye = document.querySelector(".new-pass-slash-eye");
+    const newPasswordInput = document.getElementById("new-password");
+
+    newPassEye && newPassEye.addEventListener("click", () => {
+        newPasswordInput.setAttribute("type", "text");
+        newPassEye.style.display = "none";
+        newPassSlashEye.style.display = "block"
+    });
+
+    newPassSlashEye && newPassSlashEye.addEventListener("click", () => {
+        newPasswordInput.setAttribute("type", "password");
+        newPassSlashEye.style.display = "none"
+        newPassEye.style.display = "block";
+        
+    })
+
+    // // CONFIRM PASSWORD
+    const confirmEyePass = document.querySelector(".confirm-eye-pass");
+    const confirmEyePassSlash = document.querySelector(".confirm-eye-pass-slash");
+    const confirmPasswordInput = document.getElementById("confirm-password");
+
+    confirmEyePass && confirmEyePass.addEventListener("click", () => {
+        confirmPasswordInput.setAttribute("type", "text");
+        confirmEyePass.style.display = "none";
+        confirmEyePassSlash.style.display = "block"
+    });
+
+    confirmEyePassSlash && confirmEyePassSlash.addEventListener("click", () => {
+        confirmPasswordInput.setAttribute("type", "password");
+        confirmEyePassSlash.style.display = "none"
+        confirmEyePass.style.display = "block"; 
+    })
 };
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
@@ -680,5 +762,40 @@ copyBtn && copyBtn.addEventListener("click", () => {
         msg.innerText = "Text copied to clipboard";
     });
 });
+
+// CONTACT PAGE FORM INTEGRATION
+if(window.location.pathname === '/unicoinXchange.org/page/contact-us.html'){
+    const contactForm = document.querySelector(".contact-form");
+    const contactSubBtn = document.querySelector(".submit-form")
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const number = document.getElementById("phone");
+    const subject = document.getElementById("subject");
+    const message = document.getElementById("message");
+
+    contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        contactSubBtn.children[0].style.display = "inline-block"
+
+        axios.post("http://127.0.0.1:7000/api/v1/admin/createContact", {
+            name:name.value.trim(),
+            email:email.value.trim(),
+            phoneNumber:number.value.trim(),
+            subject:subject.value.trim(),
+            message:message.value.trim()
+        }).then(res => {
+            console.log(res)
+            name.value = ""
+            email.value = ""
+            number.value = ""
+            subject.value = ""
+            message.value = ""
+            contactSubBtn.children[0].style.display = "none"
+        }).catch(err => {
+            console.log(err)
+            contactSubBtn.children[0].style.display = "none"
+        })
+    });
+}
 
 
